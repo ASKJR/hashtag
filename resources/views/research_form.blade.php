@@ -31,7 +31,15 @@
                     <li class="list-group-item">Vestibulum at eros</li> -->
                 </ol>
             </div>
+            <form method="post" action="{{url('/store')}}" style="display: none" id="formHash">
+                {{csrf_field()}}
+                <input type="hidden" id="hashTag" name="hashTag" value="kkk">
+                <div class="form-group row">
+                    <input type="submit" class="btn btn-success" value="Salvar no BD">
+                </div>
+            </form>
         </div>
+    
     </body>
 </html>
 
@@ -45,8 +53,8 @@
 
             headers: {
 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
 
         });
         $.ajax({
@@ -61,6 +69,7 @@
                     $('#outPutCommentsList').append('<li class="" font-weight">' + data.success.messages[i] + '</li>');
                     //console.log();
                 }
+                $('#formHash').show();
                 //alert(data.success.HashTag);
             },
             error: function (e,i) {
@@ -68,5 +77,6 @@
                 //alert("error");
             }
         });
+        $('#hashTag').val(searchInput);
     });
 </script>

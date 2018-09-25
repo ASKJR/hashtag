@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\HashTag;
+use App\Tweet;
 
 class TwitterController extends Controller
 {
@@ -17,12 +17,12 @@ class TwitterController extends Controller
      */
     public function index()
     {
-       $tags = HashTag::search('love');
-       $tagsText = HashTag::gettext($tags,'love');
+       $tags = Tweet::search('love');
+       $tagsText = Tweet::gettext($tags,'love');
     }
 
 
-    public function ShowSearchHashTagForm()
+    public function showSearchTweetForm()
     {
        return view('research_form');
     }
@@ -31,10 +31,10 @@ class TwitterController extends Controller
     {
         if (!empty($request->all())) {
           
-            $HashTag = str_replace("#", "", $request->input('search'));
+            $hashTag = str_replace("#", "", $request->input('search'));
 
-            $tweets = HashTag::search($HashTag);
-            $tagsText = HashTag::getText($tweets, $HashTag);
+            $tweets = Tweet::search($hashTag);
+            $tagsText = Tweet::getText($tweets, $hashTag);
 
 
             return response()->json(['success'=> $tagsText]);  
@@ -63,7 +63,14 @@ class TwitterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $hashTag = $request->input('hashTag');
+        if (!empty($hashTag)) {
+            $hashTag = trim(str_replace("#", "", $hashTag));
+            $tweets = Tweet::search($hashTag);
+            $tagsText = Tweet::getText($tweets, $hashTag);
+
+            dd(json_encode($tagsText));
+        }
     }
 
     /**

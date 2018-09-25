@@ -1,32 +1,12 @@
 <?php
 
 namespace App;
-use Twitter;
 
-class HashTag {
+use Illuminate\Database\Eloquent\Model;
 
-	public static function search($hash, $count = 100)
-	{
-		$tweets = Twitter::getSearch([
-    		'q' => '#' . $hash,
-    		'count' => 100,
-    		'format' => 'array'
-		]);
-       
-       return $tweets;
-	}
-
-	public static function getText($tweets,$hash)
-	{
-		$tweetsMessages = ['HashTag' => '#'.$hash, 'messages' => []];
-		foreach ($tweets as $tweet) {
-			foreach ($tweet as $status) {
-				if (isset($status['text'])) {
-					$tweetsMessages['messages'][] = $status['text'];
-				}
-				
-			}
-		}
-		return $tweetsMessages;
-	}
+class Hashtag extends Model
+{
+    protected $fillable = ['hashtag','messages'];
+    protected $guarded = ['id', 'created_at', 'update_at'];
+    protected $table = 'hashtags';
 }

@@ -17,5 +17,6 @@ Route::get('/', function () {
 
 //Route::resource('twitter', 'TwitterController');
 
-Route::get('/hashtag/search','TwitterController@ShowSearchHashTagForm');
+Route::get('/hashtag/search','TwitterController@showSearchTweetForm');
 Route::post('/results','TwitterController@results');
+Route::post('/store','TwitterController@store');
